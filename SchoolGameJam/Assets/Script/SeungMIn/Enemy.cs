@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     public float speed;
     public int hp;
     public Sprite[] sprites;
-    public GameObject[] attackObj;
+    public List<GameObject> attackObj = new List<GameObject>();
 
     SpriteRenderer spriteRenderer;
     Rigidbody2D rigid;
@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        transform.position += (Vector3.down * speed * Time.deltaTime);
+        transform.position += (Vector3.down * speed * Time.deltaTime * GameManager.In.timeScale);
     }
 
     void OnHit(int dmg)
@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     IEnumerator Boom()
     {
         speed = 0;
-        int ranAttack = Random.Range(0, 1);
+        int ranAttack = Random.Range(0, attackObj.Count);
         Instantiate(attackObj[ranAttack], transform.position, transform.rotation);
         yield return new WaitForSeconds(1f);
         speed = 1;

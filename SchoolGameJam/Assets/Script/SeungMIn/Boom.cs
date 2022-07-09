@@ -8,7 +8,7 @@ public class Boom : MonoBehaviour
 
     private void Update()
     {
-        transform.position += (Vector3.down * speed * Time.deltaTime);
+        transform.position += (Vector3.down * speed * Time.deltaTime * GameManager.In.timeScale);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
