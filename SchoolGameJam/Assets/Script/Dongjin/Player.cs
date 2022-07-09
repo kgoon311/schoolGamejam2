@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             DiceImages[i].DotSum.AddRange(Resources.LoadAll<Sprite>($"Dice/{i + 1}Dice/"));
-            Debug.Log("asdasd");
         }
     }
 

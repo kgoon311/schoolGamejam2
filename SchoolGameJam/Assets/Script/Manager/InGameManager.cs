@@ -20,8 +20,10 @@ public class InGameManager : SingletonMono<InGameManager>
     public int MaxBulitCount;
     public void BulitUpGrade(GameObject ThisBulit)
     {
+        Debug.Log(ThisBulit.GetComponent<Bulit>().BulitClass);
         if (BulitCollision)
         {
+            Debug.Log(ThisBulit.GetComponent<Bulit>().BulitClass + 1);
             Instantiate(Bulits[ThisBulit.GetComponent<Bulit>().BulitClass +1], ThisBulit.transform.position, ThisBulit.transform.rotation);
             BulitCount--;
             BulitCollision = false;

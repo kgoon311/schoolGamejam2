@@ -39,18 +39,16 @@ public class Bulit : MonoBehaviour
 
     void Update()
     {
-        // rg.MovePosition(transform.position + transform.up * Speed * Time.deltaTime);
-        // rg.AddForce(transform.forward * Speed);
-    }
 
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Bulit")&& collision.gameObject.GetComponent<Bulit>().BulitClass == this.BulitClass&&BulitClass < 5)
+        if (collision.gameObject.CompareTag("Bulit") && collision.gameObject.GetComponent<Bulit>().BulitClass == BulitClass && BulitClass < 5)
         {
-                InGameManager.In.BulitUpGrade(this.gameObject);
-                Destroy(gameObject);
+            InGameManager.In.BulitUpGrade(this.gameObject);
+            Destroy(gameObject);
         }
-        if(collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall"))
         {
             Hp -= WallHitDamege;
         }
