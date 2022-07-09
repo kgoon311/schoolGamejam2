@@ -4,23 +4,31 @@ using UnityEngine;
 
 public class InGameManager : SingletonMono<InGameManager>
 {
+    private int BulitCount;
+    public List<GameObject> Bulits = new List<GameObject>();
     private bool BulitCollision;
-    public List<GameObject> Bulits= new List<GameObject>();
-    void Start()
-    {
-        
+    public int _BulitCount {
+        get
+        {
+            return BulitCount;
+        }
+        set
+        {
+            BulitCount = value;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int MaxBulitCount;
     public void BulitUpGrade(GameObject ThisBulit)
     {
-        if(BulitCollision)
+        if (BulitCollision)
         {
-            Instantiate(Bulits[ThisBulit.GetComponent<Bulit>().BulitClass], ThisBulit.transform.position, ThisBulit.transform.rotation);
+            Instantiate(Bulits[ThisBulit.GetComponent<Bulit>().BulitClass +1], ThisBulit.transform.position, ThisBulit.transform.rotation);
+            BulitCount--;
+            BulitCollision = false;
+        }
+        else
+        {
+            BulitCollision = true;
         }
     }
 }
