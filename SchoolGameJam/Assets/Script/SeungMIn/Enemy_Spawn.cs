@@ -9,7 +9,11 @@ public class Enemy_Spawn : MonoBehaviour
 
     public float maxSpawnDelay;
     public float curSpawnDelay;
-
+    private float speedup = 0;
+    private void Start()
+    {
+        Invoke("SpeedUp", 10);
+    }
     void Update()
     {
         curSpawnDelay += Time.deltaTime * GameManager.In.timeScale;
@@ -17,15 +21,21 @@ public class Enemy_Spawn : MonoBehaviour
         if (curSpawnDelay > maxSpawnDelay)
         {
             spawnEnemy();
-            maxSpawnDelay = 2/*Random.Range(0.5f, 3f)*/;
             curSpawnDelay = 0;
         }
     }
-
+    void SpeedUp()
+    {
+        if(maxSpawnDelay >2)
+            maxSpawnDelay -= 1;
+        speedup+=0.5f;
+        Invoke("SpeedUp", 10);
+    }
     void spawnEnemy()
     {
         int ranEnemy = Random.Range(0, 1);
         int ranPoint = Random.Range(0, 5);
-        Instantiate(enemyObj[ranEnemy], spawnPoint[ranPoint].position, spawnPoint[ranPoint].rotation);
+        GameObject enemyObjcet = Instantiate(enemyObj[ranEnemy], spawnPoint[ranPoint].position, spawnPoint[ranPoint].rotation);
+        enemyObjcet.GetComponent<Enemy>().speed += speedup;
     }
 }

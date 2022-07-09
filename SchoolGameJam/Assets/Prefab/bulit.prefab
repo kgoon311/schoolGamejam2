@@ -97,11 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ea48fcd4327b641aacd8391a83a98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 10
-  Damege: 0
+  Hp: 5
+  Damege: 3
   Speed: 200
-  WallHitDamege: 2
-  MonsterHitDamege: 3
+  WallHitDamege: 1
+  MonsterHitDamege: 2
   BulitClass: 0
 --- !u!58 &9115725541070566255
 CircleCollider2D:

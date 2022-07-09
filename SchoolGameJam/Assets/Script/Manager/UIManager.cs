@@ -28,12 +28,12 @@ public class UIManager : MonoBehaviour
     public void OnClickResetButton()
     {
         GameManager.In.timeScale = 1;
-        SceneManager.LoadScene("SeungMin");
+        SceneManager.LoadScene(1);
     }
 
     public void OnClickHomeButton()
     {
         GameManager.In.timeScale = 1;
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(0);
     }
 }

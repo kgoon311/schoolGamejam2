@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class InGameManager : SingletonMono<InGameManager>
+public class InGameManager : Singleton<InGameManager>
 {
     [Header("Bulit")]
     public List<GameObject> Bulits = new List<GameObject>();
     private int BulitCount;
     private bool BulitCollision;
+    public int MaxBulitCount;
     [Space(1)]
     [Header("Canvas")]
     [SerializeField] private TextMeshProUGUI BulitCountText;
@@ -17,6 +18,9 @@ public class InGameManager : SingletonMono<InGameManager>
     [SerializeField] private TextMeshProUGUI ScoreText;
     [SerializeField] private Slider XpSlider;
     [SerializeField] private Image[] HpImage;
+    [SerializeField] private GameObject[] LockingPanel;
+    [SerializeField] private TextMeshProUGUI ScoreText2;
+    [SerializeField] private GameObject GameOverGO;
     [Space(1)]
     [Header("Play Related")]
     [SerializeField] int Hp;
@@ -53,23 +57,26 @@ public class InGameManager : SingletonMono<InGameManager>
         {
             LV = value;
             LevelText.text =$"LV.{LV}";
-            MaxBulitCount += 5;
+            BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
+            MaxBulitCount += 2;
             if(LV == 5)
             {
                 FirstDiceUnLock = true;
+                LockingPanel[0].gameObject.SetActive(false);
             }
             if(LV == 10)
             {
                 SecoundDiceUnLock = true;
+                LockingPanel[1].gameObject.SetActive(false); 
             }
         }
     }
     public int _Score
     {
-        get { return LV; }
+        get { return Score; }
         set
         {
-            LV = value;
+            Score = value;
             ScoreText.text =$"Score : {Score}";
         }
     }
@@ -79,11 +86,12 @@ public class InGameManager : SingletonMono<InGameManager>
         set
         {
             Xp = value;
-            if(Xp > 100)
+            while(Xp > 100)
             {
-                _LV++;
+                _LV+= 1;
                 Xp -= 100;
             }
+            BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
             XpSlider.value = Xp / 100;
         }
     }
@@ -98,14 +106,17 @@ public class InGameManager : SingletonMono<InGameManager>
             BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
         }
     }
-    public int MaxBulitCount;
     private void Start()
     {
         BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
+        ScoreText.text = "Score : 0";
+        LevelText.text = $"LV.{LV}";
     }
     void GameOver()
     {
-
+        GameManager.In.FadeInOut(0.7f, 1);
+        GameOverGO.SetActive(true);
+        GameManager.In.timeScale = 0;
     }
     public void BulitUpGrade(GameObject ThisBulit)
     {

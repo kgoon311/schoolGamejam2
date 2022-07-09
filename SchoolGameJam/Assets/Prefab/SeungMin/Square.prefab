@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6687443012503140537}
   m_Layer: 0
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  hp: 0
+  hp: 20
   sprites: []
   attackObj:
   - {fileID: 5036667895892776742, guid: 1ec9b72208b564645856c34d1f102f74, type: 3}

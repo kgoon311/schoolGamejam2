@@ -55,6 +55,7 @@ public class Bulit : MonoBehaviour
         if(collision.gameObject.CompareTag("Enemy"))
         {
             Hp -= MonsterHitDamege;
+            StartCoroutine(collision.gameObject.GetComponent<Enemy>().OnHit(Damege));
         }
     }
 }
