@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 8321708113112656356}
   - component: {fileID: 9115725541070566255}
   - component: {fileID: 3444479838916392334}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: bulit
-  m_TagString: Untagged
+  m_TagString: Bulit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5fdfc81500f1027469f60fe9c261a515, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,9 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ea48fcd4327b641aacd8391a83a98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 0
+  Hp: 10
   Damege: 0
-  Speed: 10
+  Speed: 200
+  WallHitDamege: 2
+  MonsterHitDamege: 3
   BulitClass: 0
 --- !u!58 &9115725541070566255
 CircleCollider2D:
@@ -110,7 +112,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 8321708113112656359}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 81059192b61cf55459eaf9296d2777b4, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -133,8 +135,8 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 81059192b61cf55459eaf9296d2777b4, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
