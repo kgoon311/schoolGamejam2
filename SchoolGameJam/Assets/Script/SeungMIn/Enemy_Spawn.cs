@@ -33,7 +33,7 @@ public class Enemy_Spawn : MonoBehaviour
     }
     void spawnEnemy()
     {
-        int ranEnemy = Random.Range(0, 1);
+        int ranEnemy = Random.Range(0, 3);
         int ranPoint = Random.Range(0, 5);
         GameObject enemyObjcet = Instantiate(enemyObj[ranEnemy], spawnPoint[ranPoint].position, spawnPoint[ranPoint].rotation);
         enemyObjcet.GetComponent<Enemy>().speed += speedup;

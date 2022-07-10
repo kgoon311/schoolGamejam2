@@ -118,16 +118,15 @@ public class InGameManager : Singleton<InGameManager>
     void GameOver()
     {
         SoundManager.In.PlaySound("Game Over", SoundType.SE, 1, 1);
+        ScoreText2.text = $"Score{_Score}";
         GameManager.In.FadeInOut(0.7f, 1);
         GameOverGO.SetActive(true);
         GameManager.In.timeScale = 0;
     }
     public void BulitUpGrade(GameObject ThisBulit)
     {
-        Debug.Log(ThisBulit.GetComponent<Bulit>().BulitClass);
         if (BulitCollision)
         {
-            Debug.Log(ThisBulit.GetComponent<Bulit>().BulitClass + 1);
             Instantiate(Bulits[ThisBulit.GetComponent<Bulit>().BulitClass +1], ThisBulit.transform.position, ThisBulit.transform.rotation);
             _BulitCount--;
             BulitCollision = false;
