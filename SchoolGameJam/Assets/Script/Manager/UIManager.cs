@@ -28,12 +28,14 @@ public class UIManager : MonoBehaviour
     public void OnClickResetButton()
     {
         GameManager.In.timeScale = 1;
+        GameManager.In.FadeInOut(0f, 1);
         SceneManager.LoadScene(1);
     }
 
     public void OnClickHomeButton()
     {
         GameManager.In.timeScale = 1;
+        GameManager.In.FadeInOut(0f, 1);
         SceneManager.LoadScene(0);
     }
 }

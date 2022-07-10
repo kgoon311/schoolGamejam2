@@ -50,10 +50,12 @@ public class Bulit : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Wall"))
         {
+            SoundManager.In.PlaySound("j", SoundType.SE, 1, 1);
             Hp -= WallHitDamege;
         }
         if(collision.gameObject.CompareTag("Enemy"))
         {
+            SoundManager.In.PlaySound("j", SoundType.SE, 1, 1);
             Hp -= MonsterHitDamege;
             StartCoroutine(collision.gameObject.GetComponent<Enemy>().OnHit(Damege));
         }

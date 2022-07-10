@@ -36,6 +36,7 @@ public class SoundManager : SingletonMono<SoundManager>
         {
             AudioSources[SoundType.BGM].clip = sounds[clipName];
             Volumes[SoundType.BGM] = Volume;
+            AudioSources[SoundType.BGM].volume = Volume;
             AudioSources[SoundType.BGM].Play();
         }
         else

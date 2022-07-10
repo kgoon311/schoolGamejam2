@@ -35,8 +35,9 @@ public class InGameManager : Singleton<InGameManager>
     {
         get { return Hp; }
         set {
+            SoundManager.In.PlaySound("DMG", SoundType.SE, 1, 1);
             Hp = value;
-            if (Hp < 0)
+            if (Hp <= 0)
             {
                 GameOver();
             }
@@ -55,6 +56,7 @@ public class InGameManager : Singleton<InGameManager>
         get { return LV; }
         set
         {
+            SoundManager.In.PlaySound("Level Up", SoundType.SE, 1, 1);
             LV = value;
             LevelText.text =$"LV.{LV}";
             BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
@@ -108,12 +110,14 @@ public class InGameManager : Singleton<InGameManager>
     }
     private void Start()
     {
+        SoundManager.In.PlaySound("InGame", SoundType.BGM, 0.4f, 1);
         BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
         ScoreText.text = "Score : 0";
         LevelText.text = $"LV.{LV}";
     }
     void GameOver()
     {
+        SoundManager.In.PlaySound("Game Over", SoundType.SE, 1, 1);
         GameManager.In.FadeInOut(0.7f, 1);
         GameOverGO.SetActive(true);
         GameManager.In.timeScale = 0;

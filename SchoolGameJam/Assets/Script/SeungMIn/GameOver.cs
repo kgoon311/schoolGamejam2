@@ -5,20 +5,4 @@ using UnityEngine.UI;
 
 public class End : MonoBehaviour
 {
-    Image Img;
-
-    private void Awake()
-    {
-        Img = GetComponent<Image>();
-    }
-    public void FadeInOut(float fadevalue, int time)
-    {
-        Img.DOFade(fadevalue, time);
-    }
-
-    void GameOver()
-    {
-        FadeInOut(0.7f, 1);
-        
-    }
 }
