@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
     public float speed;
     public int hp;
+    public bool Booms;
     public Sprite[] sprites;
     public List<GameObject> attackObj = new List<GameObject>();
 
@@ -43,7 +44,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
             InGameManager.In._HP--;
         }
-        else if (collision.gameObject.tag == "Attack")
+        else if (collision.gameObject.tag == "Attack"&&Booms)
         {
             StartCoroutine(Boom());
         }
