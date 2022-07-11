@@ -9,14 +9,12 @@ public class Bulit : MonoBehaviour
     private int Hp;
     private int _Hp
     {
-        get { return Hp; }
         set
         {
             //HpBar Á¶Àý
             Hp = value;
             if(Hp <= 0)
             {
-                InGameManager.In._BulitCount--;
                 Destroy(gameObject);
             }
         }
@@ -52,14 +50,11 @@ public class Bulit : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Wall"))
         {
-            SoundManager.In.PlaySound("j", SoundType.SE, 1, 1);
-           _Hp -= WallHitDamege;
+            Hp -= WallHitDamege;
         }
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            SoundManager.In.PlaySound("j", SoundType.SE, 1, 1);
-            _Hp -= MonsterHitDamege;
-            StartCoroutine(collision.gameObject.GetComponent<Enemy>().OnHit(Damege));
+            Hp -= MonsterHitDamege;
         }
     }
 }

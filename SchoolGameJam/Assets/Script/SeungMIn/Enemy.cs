@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+
 public class Enemy : MonoBehaviour
 {
     public float speed;
     public int hp;
-    public bool Booms;
     public Sprite[] sprites;
     public List<GameObject> attackObj = new List<GameObject>();
 
@@ -23,36 +22,36 @@ public class Enemy : MonoBehaviour
         transform.position += (Vector3.down * speed * Time.deltaTime * GameManager.In.timeScale);
     }
 
-    public IEnumerator OnHit(int dmg)
+    void OnHit(int dmg)
     {
         hp -= dmg;
-        spriteRenderer.color = new Color(255, 0, 0);
-        yield return new WaitForSeconds(0.5f);
-        spriteRenderer.color =(new Color(255, 255, 255));
+        spriteRenderer.sprite = sprites[1];
+        Invoke("ReturnSprite", 0.1f);
+
         if(hp <= 0)
         {
-            InGameManager.In._XP += 30;
-            InGameManager.In._Score += 700;
             Destroy(gameObject);
         }
-        yield return null;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    void ReturnSprite()
+    {
+        spriteRenderer.sprite = sprites[0];
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Destroy")
         {
             Destroy(gameObject);
-            InGameManager.In._HP--;
-        }
-        else if (collision.gameObject.tag == "Attack"&&Booms)
+        }else if(collision.gameObject.tag == "Attack")
         {
-            StartCoroutine(Boom());
+            StartCoroutine( Boom());
         }
     }
     IEnumerator Boom()
     {
         speed = 0;
-        yield return new WaitForSeconds(1.5f);
         int ranAttack = Random.Range(0, attackObj.Count);
         Instantiate(attackObj[ranAttack], transform.position, transform.rotation);
         yield return new WaitForSeconds(1f);

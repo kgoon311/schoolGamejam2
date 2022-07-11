@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class InGameManager : Singleton<InGameManager>
+public class InGameManager : SingletonMono<InGameManager>
 {
     [Header("Bulit")]
     public List<GameObject> Bulits = new List<GameObject>();
     private int BulitCount;
     private bool BulitCollision;
-    public int MaxBulitCount;
     [Space(1)]
     [Header("Canvas")]
     [SerializeField] private TextMeshProUGUI BulitCountText;
@@ -18,9 +17,6 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private TextMeshProUGUI ScoreText;
     [SerializeField] private Slider XpSlider;
     [SerializeField] private Image[] HpImage;
-    [SerializeField] private GameObject[] LockingPanel;
-    [SerializeField] private TextMeshProUGUI ScoreText2;
-    [SerializeField] private GameObject GameOverGO;
     [Space(1)]
     [Header("Play Related")]
     [SerializeField] int Hp;
@@ -35,9 +31,8 @@ public class InGameManager : Singleton<InGameManager>
     {
         get { return Hp; }
         set {
-            SoundManager.In.PlaySound("DMG", SoundType.SE, 1, 1);
             Hp = value;
-            if (Hp <= 0)
+            if (Hp < 0)
             {
                 GameOver();
             }
@@ -56,29 +51,25 @@ public class InGameManager : Singleton<InGameManager>
         get { return LV; }
         set
         {
-            SoundManager.In.PlaySound("Level Up", SoundType.SE, 1, 1);
             LV = value;
             LevelText.text =$"LV.{LV}";
-            BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
-            MaxBulitCount += 2;
+            MaxBulitCount += 5;
             if(LV == 5)
             {
                 FirstDiceUnLock = true;
-                LockingPanel[0].gameObject.SetActive(false);
             }
             if(LV == 10)
             {
                 SecoundDiceUnLock = true;
-                LockingPanel[1].gameObject.SetActive(false); 
             }
         }
     }
     public int _Score
     {
-        get { return Score; }
+        get { return LV; }
         set
         {
-            Score = value;
+            LV = value;
             ScoreText.text =$"Score : {Score}";
         }
     }
@@ -88,12 +79,11 @@ public class InGameManager : Singleton<InGameManager>
         set
         {
             Xp = value;
-            while(Xp > 100)
+            if(Xp > 100)
             {
-                _LV+= 1;
+                _LV++;
                 Xp -= 100;
             }
-            BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
             XpSlider.value = Xp / 100;
         }
     }
@@ -108,25 +98,21 @@ public class InGameManager : Singleton<InGameManager>
             BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
         }
     }
+    public int MaxBulitCount;
     private void Start()
     {
-        SoundManager.In.PlaySound("InGame", SoundType.BGM, 0.4f, 1);
         BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
-        ScoreText.text = "Score : 0";
-        LevelText.text = $"LV.{LV}";
     }
     void GameOver()
     {
-        SoundManager.In.PlaySound("Game Over", SoundType.SE, 1, 1);
-        ScoreText2.text = $"Score{_Score}";
-        GameManager.In.FadeInOut(0.7f, 1);
-        GameOverGO.SetActive(true);
-        GameManager.In.timeScale = 0;
+
     }
     public void BulitUpGrade(GameObject ThisBulit)
     {
+        Debug.Log(ThisBulit.GetComponent<Bulit>().BulitClass);
         if (BulitCollision)
         {
+            Debug.Log(ThisBulit.GetComponent<Bulit>().BulitClass + 1);
             Instantiate(Bulits[ThisBulit.GetComponent<Bulit>().BulitClass +1], ThisBulit.transform.position, ThisBulit.transform.rotation);
             _BulitCount--;
             BulitCollision = false;

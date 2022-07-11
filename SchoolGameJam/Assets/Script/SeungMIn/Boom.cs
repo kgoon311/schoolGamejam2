@@ -10,11 +10,11 @@ public class Boom : MonoBehaviour
     {
         transform.position += (Vector3.down * speed * Time.deltaTime * GameManager.In.timeScale);
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Destroy")
         {
-            InGameManager.In._HP--;
             Destroy(gameObject);
         }
     }
