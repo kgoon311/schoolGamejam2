@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ea48fcd4327b641aacd8391a83a98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 11
+  Hp: 18
   Damege: 4
   Speed: 250
   WallHitDamege: 1
