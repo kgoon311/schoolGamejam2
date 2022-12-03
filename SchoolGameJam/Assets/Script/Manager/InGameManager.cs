@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using TMPro;
 
 public class InGameManager : Singleton<InGameManager>
@@ -20,13 +21,15 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private Image[] HpImage;
     [SerializeField] private GameObject[] LockingPanel;
     [SerializeField] private TextMeshProUGUI ScoreText2;
-    [SerializeField] private GameObject GameOverGO;
+
+    [SerializeField] private Image FadePanel;
+    [SerializeField] private GameObject GameOverObj;
     [Space(1)]
     [Header("Play Related")]
     [SerializeField] int Hp;
     [SerializeField] int Score;
     [SerializeField] int LV;
-    [SerializeField] int Xp;
+    [SerializeField] float Xp;
     [Space(1)]
     [Header("Bool")]
     public bool FirstDiceUnLock;
@@ -34,18 +37,19 @@ public class InGameManager : Singleton<InGameManager>
     public int _HP
     {
         get { return Hp; }
-        set {
-            SoundManager.In.PlaySound("DMG", SoundType.SE, 1, 1);
+        set
+        {
+            SoundManager.In.PlaySound("DMG", SoundType.SFX, 1, 1);
             Hp = value;
             if (Hp <= 0)
             {
                 GameOver();
             }
-            for(int i = 0;i<3;i++)
+            for (int i = 0; i < 3; i++)
             {
                 HpImage[i].color = Color.black;
             }
-            for(int i = 0; i<Hp;i++)
+            for (int i = 0; i < Hp; i++)
             {
                 HpImage[i].color = Color.red;
             }
@@ -56,20 +60,20 @@ public class InGameManager : Singleton<InGameManager>
         get { return LV; }
         set
         {
-            SoundManager.In.PlaySound("Level Up", SoundType.SE, 1, 1);
+            SoundManager.In.PlaySound("Level Up", SoundType.SFX, 1, 1);
             LV = value;
-            LevelText.text =$"LV.{LV}";
+            LevelText.text = $"LV.{LV}";
             BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
             MaxBulitCount += 2;
-            if(LV == 5)
+            if (LV == 5)
             {
                 FirstDiceUnLock = true;
                 LockingPanel[0].gameObject.SetActive(false);
             }
-            if(LV == 10)
+            if (LV == 10)
             {
                 SecoundDiceUnLock = true;
-                LockingPanel[1].gameObject.SetActive(false); 
+                LockingPanel[1].gameObject.SetActive(false);
             }
         }
     }
@@ -79,29 +83,27 @@ public class InGameManager : Singleton<InGameManager>
         set
         {
             Score = value;
-            ScoreText.text =$"Score : {Score}";
+            ScoreText.text = $"Score : {Score}";
         }
     }
-    public int _XP
+    public float _XP  
     {
         get { return Xp; }
         set
         {
             Xp = value;
-            while(Xp > 100)
+            while (Xp > 100)
             {
-                _LV+= 1;
+                _LV += 1;
                 Xp -= 100;
             }
             BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
-            XpSlider.value = Xp / 100;
+            XpSlider.value = (float )Xp / 100;
         }
     }
-    public int _BulitCount {
-        get
-        {
-            return BulitCount;
-        }
+    public int _BulitCount
+    {
+        get => BulitCount; 
         set
         {
             BulitCount = value;
@@ -117,23 +119,20 @@ public class InGameManager : Singleton<InGameManager>
     }
     void GameOver()
     {
-        SoundManager.In.PlaySound("Game Over", SoundType.SE, 1, 1);
+        SoundManager.In.PlaySound("Game Over", SoundType.SFX, 1, 1);
         ScoreText2.text = $"Score{_Score}";
-        GameManager.In.FadeInOut(0.7f, 1);
-        GameOverGO.SetActive(true);
+        FadePanel.gameObject.SetActive(true);
+        GameOverObj.SetActive(true);
         GameManager.In.timeScale = 0;
     }
-    public void BulitUpGrade(GameObject ThisBulit)
+    public void FadeInOut(float FadeValue, float time)
     {
-        if (BulitCollision)
-        {
-            Instantiate(Bulits[ThisBulit.GetComponent<Bulit>().BulitClass +1], ThisBulit.transform.position, ThisBulit.transform.rotation);
+        FadePanel.DOFade(FadeValue, time);
+    }
+    public void BulletUpgrade(GameObject ThisBulit)
+    {
+       
+            Instantiate(Bulits[ThisBulit.GetComponent<Bulit>().BulitClass + 1], ThisBulit.transform.position, ThisBulit.transform.rotation);
             _BulitCount--;
-            BulitCollision = false;
-        }
-        else
-        {
-            BulitCollision = true;
-        }
     }
 }

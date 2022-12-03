@@ -26,15 +26,15 @@ public class Enemy : MonoBehaviour
     public IEnumerator OnHit(int dmg)
     {
         hp -= dmg;
-        spriteRenderer.color = new Color(255, 0, 0);
-        yield return new WaitForSeconds(0.5f);
-        spriteRenderer.color =(new Color(255, 255, 255));
-        if(hp <= 0)
+        if (hp <= 0)
         {
             InGameManager.In._XP += 30;
             InGameManager.In._Score += 700;
             Destroy(gameObject);
         }
+        spriteRenderer.color = new Color(255, 0, 0);
+        yield return new WaitForSeconds(0.5f);
+        if (spriteRenderer != null)spriteRenderer.color =(new Color(255, 255, 255));
         yield return null;
     }
     private void OnTriggerEnter2D(Collider2D collision)

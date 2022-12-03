@@ -4,14 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public enum SoundType
 {
-    SE,
-    BGM,
-    END
+    SFX,
+    BGM
 }
 public class SoundManager : SingletonMono<SoundManager>
 {
     Dictionary<string, AudioClip> sounds = new Dictionary<string, AudioClip>();
-    Dictionary<SoundType, float> Volumes = new Dictionary<SoundType, float>() { { SoundType.SE, 1 }, { SoundType.BGM, 1 } };
+    Dictionary<SoundType, float> Volumes = new Dictionary<SoundType, float>() { { SoundType.SFX, 1 }, { SoundType.BGM, 1 } };
     Dictionary<SoundType, AudioSource> AudioSources = new Dictionary<SoundType, AudioSource>();
 
     protected override void OnAwake()
@@ -19,7 +18,7 @@ public class SoundManager : SingletonMono<SoundManager>
         GameObject Se = new GameObject();
         Se.transform.parent = transform;
         Se.AddComponent<AudioSource>();
-        AudioSources[SoundType.SE] = Se.GetComponent<AudioSource>();
+        AudioSources[SoundType.SFX] = Se.GetComponent<AudioSource>();
 
         GameObject Bgm = new GameObject();
         Bgm.transform.parent = transform;
@@ -30,7 +29,7 @@ public class SoundManager : SingletonMono<SoundManager>
         foreach (AudioClip clip in clips)
             sounds[clip.name] = clip;
     }
-    public void PlaySound(string clipName, SoundType ClipType = SoundType.SE, float Volume = 1, float Pitch = 1)
+    public void PlaySound(string clipName, SoundType ClipType = SoundType.SFX, float Volume = 1, float Pitch = 1)
     {
         if (ClipType == SoundType.BGM)
         {
@@ -44,8 +43,5 @@ public class SoundManager : SingletonMono<SoundManager>
             AudioSources[ClipType].pitch = Pitch;
             AudioSources[ClipType].PlayOneShot(sounds[clipName], Volume );
         }
-    }
-    private void Update()
-    {
     }
 }
