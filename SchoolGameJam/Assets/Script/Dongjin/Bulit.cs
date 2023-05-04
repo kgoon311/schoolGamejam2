@@ -6,15 +6,15 @@ public class Bulit : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField]
-    private int Hp;
+    private int hp;
     private int _Hp
     {
-        get { return Hp; }
+        get { return hp; }
         set
         {
             //HpBar 조절
-            Hp = value;
-            if (Hp <= 0)
+            hp = value;
+            if (hp <= 0)
             {
                 InGameManager.In._BulitCount--;
                 Destroy(gameObject);
@@ -23,37 +23,38 @@ public class Bulit : MonoBehaviour
     }
 
     [SerializeField]
-    private int Damege;
+    private int damege;
     [SerializeField]
-    private int Speed;
+    private int speed;
     [SerializeField]
-    private int WallHitDamege;
+    private int wallHitDamege;
     [SerializeField]
-    private int MonsterHitDamege;
+    private int monsterHitDamege;
+    [SerializeField]
+    private Vector3 directPos;//진행 방향
 
-    public int BulitClass;
+    public int bulitClass;
     private CircleCollider2D circleCollider2D;
-    private Rigidbody2D rg;
     void Start()
     {
         circleCollider2D = GetComponent<CircleCollider2D>();
-        rg = GetComponent<Rigidbody2D>();
-        rg.AddForce(transform.up * Speed);
+        directPos = new Vector3(transform.rotation.x,transform.rotation.y) * 100;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     void Update()
     {
-        rg.velocity *= 1;
+        transform.position += directPos * speed * Time.deltaTime;
     }
     private void FixedUpdate()
     {
         RaycastHit2D[] CastObjects = Physics2D.CircleCastAll(transform.position, circleCollider2D.radius, Vector2.zero, 0, LayerMask.GetMask("Bullet"));
         for (int i = 0; CastObjects.Length > i; i++)
         {
-            if (CastObjects[i].transform.GetComponent<Bulit>().BulitClass == BulitClass
-                && BulitClass < 5 && CastObjects[i].transform.gameObject != gameObject)
+            if (CastObjects[i].transform.GetComponent<Bulit>().bulitClass == bulitClass
+                && bulitClass < 5 && CastObjects[i].transform.gameObject != gameObject)
             {
-                InGameManager.In.BulletUpgrade(gameObject);
+                InGameManager.In.BulletUpgrade(gameObject,directPos);
                 Destroy(CastObjects[i].transform.gameObject);
                 Destroy(gameObject);
             }
@@ -64,13 +65,23 @@ public class Bulit : MonoBehaviour
         if (collision.gameObject.CompareTag("Wall"))
         {
             SoundManager.In.PlaySound("j", SoundType.SFX, 1, 1);
-            _Hp -= WallHitDamege;
+            _Hp -= wallHitDamege;
+            Bounce(collision);
         }
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            Bounce(collision);
             SoundManager.In.PlaySound("j", SoundType.SFX, 1, 1);
-            _Hp -= MonsterHitDamege;
-            StartCoroutine(collision.gameObject.GetComponent<Enemy>().OnHit(Damege));
+            _Hp -= monsterHitDamege;
+            StartCoroutine(collision.gameObject.GetComponent<Enemy>().OnHit(damege));
         }
+    }
+    private void Bounce(Collision2D collision)
+    {
+        Vector3 incldentVector = directPos;
+
+        Vector3 normalVector = collision.contacts[0].normal;//법선 위치;
+
+        directPos = Vector3.Reflect(incldentVector, normalVector);
     }
 }

@@ -98,12 +98,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ea48fcd4327b641aacd8391a83a98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 21
-  Damege: 5
-  Speed: 300
-  WallHitDamege: 1
-  MonsterHitDamege: 2
-  BulitClass: 2
+  hp: 15
+  damege: 5
+  speed: 1
+  wallHitDamege: 1
+  monsterHitDamege: 2
+  directPos: {x: 0, y: 0, z: 0}
+  bulitClass: 2
 --- !u!58 &118792944342784773
 CircleCollider2D:
   m_ObjectHideFlags: 0

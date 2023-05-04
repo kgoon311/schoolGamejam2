@@ -86,7 +86,7 @@ public class InGameManager : Singleton<InGameManager>
             ScoreText.text = $"Score : {Score}";
         }
     }
-    public float _XP  
+    public float _XP
     {
         get { return Xp; }
         set
@@ -98,12 +98,12 @@ public class InGameManager : Singleton<InGameManager>
                 Xp -= 100;
             }
             BulitCountText.text = $"{BulitCount} / {MaxBulitCount}";
-            XpSlider.value = (float )Xp / 100;
+            XpSlider.value = (float)Xp / 100;
         }
     }
     public int _BulitCount
     {
-        get => BulitCount; 
+        get => BulitCount;
         set
         {
             BulitCount = value;
@@ -129,10 +129,10 @@ public class InGameManager : Singleton<InGameManager>
     {
         FadePanel.DOFade(FadeValue, time);
     }
-    public void BulletUpgrade(GameObject ThisBulit)
+    public void BulletUpgrade(GameObject ThisBulit, Vector3 direct)
     {
-       
-            Instantiate(Bulits[ThisBulit.GetComponent<Bulit>().BulitClass + 1], ThisBulit.transform.position, ThisBulit.transform.rotation);
-            _BulitCount--;
+        Debug.Log(direct);
+        Instantiate(Bulits[ThisBulit.GetComponent<Bulit>().bulitClass + 1], ThisBulit.transform.position, Quaternion.Euler(direct));
+        _BulitCount--;
     }
 }

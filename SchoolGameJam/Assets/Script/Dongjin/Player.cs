@@ -127,9 +127,8 @@ public class Player : MonoBehaviour
         StopShot = true;
         InGameManager.In._BulitCount++;
 
-        Vector2 vec = clickPos - mousePos;
-        Quaternion Mouserotate = Quaternion.Euler(new Vector3(0, 0, 
-            Mathf.Rad2Deg * Mathf.Atan2(vec.y,vec.x) + 270));
+        Vector3 vec = clickPos - mousePos; 
+        Quaternion Mouserotate = Quaternion.Euler(vec);
 
 
         RandomDot = Random.Range(0, DiceImages[Diceidx].DotSum.Count);
